@@ -1,6 +1,7 @@
-// /app/api/summoner/route.ts
+// app/api/summoner/route.ts
 import axios from 'axios';
 import { NextResponse } from 'next/server';
+import { getLatestDDragonVersion } from '@/lib/ddragon';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -12,6 +13,9 @@ export async function GET(req: Request) {
   }
 
   try {
+    // Get latest Data Dragon version first
+    const latestVersion = await getLatestDDragonVersion();
+    
     // Parse Riot ID format (name#tagLine)
     const [gameName, tagLine] = summonerName.split('#');
     
@@ -42,8 +46,17 @@ export async function GET(req: Request) {
     const matchesResponse = await Promise.all(matchPromises);
     const matches = matchesResponse.map(response => response.data);
 
+    // Combine all the data with the gameName and tagLine
+    const combinedSummonerData = {
+      ...summonerResponse.data,
+      name: gameName,
+      tagLine: tagLine,
+      displayName: `${gameName}#${tagLine}`,
+      ddragonVersion: latestVersion
+    };
+
     return NextResponse.json({
-      summoner: summonerResponse.data,
+      summoner: combinedSummonerData,
       ranked: rankedResponse.data,
       matches
     });

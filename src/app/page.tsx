@@ -38,6 +38,9 @@ export default function HomePage() {
         throw new Error(data.error);
       }
 
+      // Debug log
+      console.log("API Response:", data);
+
       setSummonerData(data as SummonerResponse);
     } catch (error) {
       console.error("Error fetching summoner data:", error);
@@ -49,9 +52,15 @@ export default function HomePage() {
     setLoading(false);
   };
 
+  // Debug log for rendered data
+  if (summonerData) {
+    console.log("Rendering with summoner data:", summonerData);
+  }
+
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
-      <form onSubmit={handleSearch} className="max-w-md mx-auto mb-8">
+    <div className="space-y-8">
+      {/* Search form */}
+      <form onSubmit={handleSearch} className="max-w-md mx-auto">
         <div className="flex flex-col gap-2">
           <input
             type="text"
@@ -70,29 +79,35 @@ export default function HomePage() {
         </div>
       </form>
 
+      {/* Error display */}
       {error && (
-        <div className="max-w-md mx-auto mb-4 p-4 bg-red-500/20 border border-red-500 rounded text-center">
+        <div className="max-w-md mx-auto p-4 bg-red-500/10 border border-red-500 rounded-lg text-center text-red-500">
           {error}
         </div>
       )}
 
+      {/* Loading state */}
       {loading && (
-        <div className="flex justify-center items-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        <div className="flex justify-center items-center py-16">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
         </div>
       )}
 
+      {/* Summoner data display */}
       {summonerData && !loading && (
-        <div className="max-w-2xl mx-auto space-y-6">
+        <div className="space-y-6">
           <SummonerProfile
             summoner={summonerData.summoner}
             ranked={summonerData.ranked}
           />
-          <h3 className="text-xl font-bold">Match History</h3>
-          <MatchHistory
-            matches={summonerData.matches}
-            summonerPuuid={summonerData.summoner.puuid}
-          />
+          <div className="bg-gray-800/50 rounded-lg p-6">
+            <h3 className="text-xl font-bold mb-6">Match History</h3>
+            <MatchHistory
+              matches={summonerData.matches}
+              summonerPuuid={summonerData.summoner.puuid}
+              summonerName={summonerData.summoner.name}
+            />
+          </div>
         </div>
       )}
     </div>

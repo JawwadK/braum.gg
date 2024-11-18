@@ -17,7 +17,12 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Braum.gg",
-  description: "League Account lookup tool",
+  description: "League Analysis tool",
+  icons: {
+    icon: [{ url: "/braum.png", sizes: "256x256", type: "image/png" }],
+    shortcut: "/braum.png",
+    apple: { url: "/braum.png", sizes: "256x256", type: "image/png" },
+  },
 };
 
 export default function RootLayout({

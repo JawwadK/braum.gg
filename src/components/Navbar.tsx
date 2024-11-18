@@ -3,6 +3,7 @@
 import { Search } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function Navbar() {
   const [summonerName, setSummonerName] = useState("");
@@ -21,9 +22,14 @@ export default function Navbar() {
           {/* Logo and brand */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">B</span>
-              </div>
+              <Image
+                src="/braum.png"
+                alt="Braum.gg Logo"
+                width={40} // A bit larger than before but still reasonable for navbar
+                height={40}
+                className="rounded"
+                priority
+              />
               <span className="ml-2 text-white font-bold text-lg">
                 Braum.gg
               </span>

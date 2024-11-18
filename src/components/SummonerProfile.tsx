@@ -45,11 +45,11 @@ export default function SummonerProfile({
   };
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+    <div className="bg-card p-6 rounded-lg shadow-lg">
       <div className="flex items-center gap-4">
         <div className="relative w-[100px] h-[100px]">
           {isIconLoading && (
-            <div className="absolute inset-0 bg-gray-700 rounded-full animate-pulse" />
+            <div className="absolute inset-0 bg-muted rounded-full animate-pulse" />
           )}
           <Image
             src={
@@ -59,7 +59,7 @@ export default function SummonerProfile({
             }
             alt={`${summoner.name}'s profile icon`}
             fill
-            className={`rounded-full border-2 border-gray-700 object-cover ${
+            className={`rounded-full border-2 border-border object-cover ${
               isIconLoading ? "opacity-0" : "opacity-100"
             } transition-opacity duration-200`}
             onError={() => {
@@ -70,12 +70,12 @@ export default function SummonerProfile({
             priority
             unoptimized
           />
-          <div className="absolute -bottom-1 -right-1 bg-gray-900 px-2 py-0.5 rounded-full border border-gray-700 text-sm">
+          <div className="absolute -bottom-1 -right-1 bg-background px-2 py-0.5 rounded-full border border-border text-sm">
             {summoner.summonerLevel}
           </div>
         </div>
         <div>
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-2xl font-bold text-foreground">
             {summoner.displayName || summoner.name}
             {summoner.tagLine &&
               !summoner.displayName &&
@@ -84,14 +84,14 @@ export default function SummonerProfile({
           {soloQueue && (
             <div className="mt-2 space-y-1">
               <p className="text-lg font-medium flex items-center gap-2">
-                <span>
+                <span className="text-foreground">
                   {soloQueue.tier} {soloQueue.rank}
                 </span>
-                <span className="text-blue-400">
+                <span className="text-primary">
                   {soloQueue.leaguePoints} LP
                 </span>
               </p>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-muted-foreground">
                 {soloQueue.wins}W {soloQueue.losses}L
                 <span className="ml-2">
                   (
@@ -104,7 +104,7 @@ export default function SummonerProfile({
               </p>
             </div>
           )}
-          {!soloQueue && <p className="text-gray-400 mt-1">Unranked</p>}
+          {!soloQueue && <p className="text-muted-foreground mt-1">Unranked</p>}
         </div>
       </div>
     </div>

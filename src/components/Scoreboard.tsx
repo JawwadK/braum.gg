@@ -17,8 +17,8 @@ const Scoreboard = ({
 
   const StatCell = ({ value, label }: { value: number; label?: string }) => (
     <div className="text-center">
-      <div className="font-medium">{value}</div>
-      {label && <div className="text-xs text-gray-400">{label}</div>}
+      <div className="font-medium text-foreground">{value}</div>
+      {label && <div className="text-xs text-muted-foreground">{label}</div>}
     </div>
   );
 
@@ -30,7 +30,7 @@ const Scoreboard = ({
     teamName: string;
   }) => (
     <div className="space-y-1">
-      <div className="grid grid-cols-12 gap-2 text-sm text-gray-400 px-2">
+      <div className="grid grid-cols-12 gap-2 text-sm text-muted-foreground px-2">
         <div className="col-span-4">Champion</div>
         <div className="col-span-2 text-center">KDA</div>
         <div className="col-span-2 text-center">Damage</div>
@@ -42,8 +42,8 @@ const Scoreboard = ({
           key={player.puuid}
           className={`grid grid-cols-12 gap-2 items-center p-2 rounded ${
             player.puuid === summonerPuuid
-              ? "bg-blue-500/20"
-              : "hover:bg-gray-700/50"
+              ? "bg-primary/20"
+              : "hover:bg-accent/50 transition-colors"
           }`}
         >
           <div className="col-span-4 flex items-center gap-2">
@@ -56,11 +56,13 @@ const Scoreboard = ({
                 className="rounded"
                 unoptimized
               />
-              <div className="absolute -bottom-1 -right-1 bg-gray-900 rounded-full text-xs w-4 h-4 flex items-center justify-center">
+              <div className="absolute -bottom-1 -right-1 bg-background text-foreground rounded-full text-xs w-4 h-4 flex items-center justify-center border border-border">
                 {player.champLevel}
               </div>
             </div>
-            <span className="truncate">{player.summonerName}</span>
+            <span className="truncate text-foreground">
+              {player.summonerName}
+            </span>
           </div>
 
           <div className="col-span-2 text-center">
@@ -102,17 +104,27 @@ const Scoreboard = ({
   );
 
   return (
-    <div className="bg-gray-800 p-4 rounded-lg space-y-4">
+    <div className="bg-card p-4 rounded-lg space-y-4">
       <div className="space-y-4">
         <div>
-          <h3 className="text-blue-400 font-medium mb-2">
-            BLUE TEAM {teams.blue[0].win ? "(VICTORY)" : ""}
+          <h3
+            className={`text-sky-400 font-medium mb-2 flex items-center justify-between`}
+          >
+            <span>BLUE TEAM</span>
+            {teams.blue[0].win && (
+              <span className="text-primary text-sm font-normal">VICTORY</span>
+            )}
           </h3>
           <TeamSection team={teams.blue} teamName="blue" />
         </div>
-        <div>
-          <h3 className="text-red-400 font-medium mb-2">
-            RED TEAM {teams.red[0].win ? "(VICTORY)" : ""}
+        <div className="border-t border-border pt-4">
+          <h3
+            className={`text-rose-400 font-medium mb-2 flex items-center justify-between`}
+          >
+            <span>RED TEAM</span>
+            {teams.red[0].win && (
+              <span className="text-primary text-sm font-normal">VICTORY</span>
+            )}
           </h3>
           <TeamSection team={teams.red} teamName="red" />
         </div>

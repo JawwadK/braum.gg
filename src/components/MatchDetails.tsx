@@ -24,8 +24,8 @@ export default function MatchDetails({
 
   if (!participant) {
     return (
-      <div className="bg-gray-800 p-6 rounded-lg">
-        <p className="text-red-500">Participant data not found</p>
+      <div className="bg-card p-6 rounded-lg">
+        <p className="text-destructive">Participant data not found</p>
       </div>
     );
   }
@@ -36,8 +36,8 @@ export default function MatchDetails({
 
   if (!team) {
     return (
-      <div className="bg-gray-800 p-6 rounded-lg">
-        <p className="text-red-500">Team data not found</p>
+      <div className="bg-card p-6 rounded-lg">
+        <p className="text-destructive">Team data not found</p>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export default function MatchDetails({
   return (
     <div className="space-y-6">
       {/* Overview Panel - Always visible */}
-      <div className="bg-gray-800 p-6 rounded-lg">
+      <div className="bg-card p-6 rounded-lg">
         <div className="flex items-center gap-4">
           <Image
             src={`${DDRAGON_BASE_URL}/img/champion/${participant.championName}.png`}
@@ -72,13 +72,15 @@ export default function MatchDetails({
             unoptimized
           />
           <div>
-            <h2 className="text-2xl font-bold">{participant.championName}</h2>
-            <p className="text-gray-400">
+            <h2 className="text-2xl font-bold text-foreground">
+              {participant.championName}
+            </h2>
+            <p className="text-muted-foreground">
               {participant.kills}/{participant.deaths}/{participant.assists} KDA
             </p>
             <p
               className={`text-sm ${
-                participant.win ? "text-green-500" : "text-red-500"
+                participant.win ? "text-primary" : "text-destructive"
               }`}
             >
               {participant.win ? "Victory" : "Defeat"} -{" "}
@@ -102,16 +104,18 @@ export default function MatchDetails({
         <TabsContent value="overview">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Performance Stats */}
-            <div className="bg-gray-800 p-6 rounded-lg">
-              <h3 className="text-xl font-bold mb-4">Performance</h3>
+            <div className="bg-card p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-4 text-foreground">
+                Performance
+              </h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-gray-400">KDA</p>
-                  <p className="text-xl">
+                  <p className="text-muted-foreground">KDA</p>
+                  <p className="text-xl text-foreground">
                     {participant.kills}/{participant.deaths}/
                     {participant.assists}
                   </p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-sm text-muted-foreground">
                     {(
                       (participant.kills + participant.assists) /
                       Math.max(1, participant.deaths)
@@ -120,9 +124,11 @@ export default function MatchDetails({
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400">Kill Participation</p>
-                  <p className="text-xl">{formatPercent(killParticipation)}</p>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-muted-foreground">Kill Participation</p>
+                  <p className="text-xl text-foreground">
+                    {formatPercent(killParticipation)}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
                     Team Kills: {totalTeamKills}
                   </p>
                 </div>
@@ -130,8 +136,10 @@ export default function MatchDetails({
             </div>
 
             {/* Build and Runes Section */}
-            <div className="bg-gray-800 p-6 rounded-lg">
-              <h3 className="text-xl font-bold mb-4">Build & Runes</h3>
+            <div className="bg-card p-6 rounded-lg">
+              <h3 className="text-xl font-bold mb-4 text-foreground">
+                Build & Runes
+              </h3>
               <div className="space-y-4">
                 {/* Items */}
                 <div className="grid grid-cols-3 gap-2">
@@ -148,7 +156,7 @@ export default function MatchDetails({
                         unoptimized
                       />
                     ) : (
-                      <div key={i} className="w-10 h-10 bg-gray-700 rounded" />
+                      <div key={i} className="w-10 h-10 bg-secondary rounded" />
                     );
                   })}
                 </div>
@@ -185,8 +193,8 @@ export default function MatchDetails({
         <TabsContent value="stats">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Damage Stats */}
-            <div className="bg-gray-800 p-6 rounded-lg space-y-6">
-              <h3 className="text-xl font-bold">Damage</h3>
+            <div className="bg-card p-6 rounded-lg space-y-6">
+              <h3 className="text-xl font-bold text-foreground">Damage</h3>
 
               {/* Total Damage */}
               <div className="space-y-4">
@@ -202,7 +210,7 @@ export default function MatchDetails({
                   color="bg-purple-500"
                 />
 
-                <h4 className="text-sm font-medium text-gray-400 mt-4">
+                <h4 className="text-sm font-medium text-muted-foreground mt-4">
                   Damage Distribution
                 </h4>
                 <DamageDistribution
@@ -214,7 +222,7 @@ export default function MatchDetails({
 
               {/* Damage Taken */}
               <div className="space-y-4">
-                <h4 className="text-sm font-medium text-gray-400">
+                <h4 className="text-sm font-medium text-muted-foreground">
                   Damage Taken & Mitigated
                 </h4>
                 <StatsBar
@@ -224,7 +232,7 @@ export default function MatchDetails({
                     (max: number, p: any) => Math.max(max, p.totalDamageTaken),
                     0
                   )}
-                  color="bg-red-500"
+                  color="bg-destructive"
                 />
                 <StatsBar
                   label="Damage Mitigated"
@@ -234,21 +242,21 @@ export default function MatchDetails({
                       Math.max(max, p.damageSelfMitigated),
                     0
                   )}
-                  color="bg-green-500"
+                  color="bg-emerald-500"
                 />
               </div>
             </div>
 
             {/* Combat Stats */}
-            <div className="bg-gray-800 p-6 rounded-lg space-y-6">
-              <h3 className="text-xl font-bold">Combat</h3>
+            <div className="bg-card p-6 rounded-lg space-y-6">
+              <h3 className="text-xl font-bold text-foreground">Combat</h3>
 
               <div className="grid grid-cols-2 gap-4">
                 <CircularStat
                   value={participant.kills + participant.assists}
                   total={totalTeamKills}
                   label="Kill Participation"
-                  color="text-green-500"
+                  color="text-emerald-500"
                 />
                 <CircularStat
                   value={participant.visionScore}
@@ -257,7 +265,7 @@ export default function MatchDetails({
                     0
                   )}
                   label="Vision Score"
-                  color="text-yellow-500"
+                  color="text-amber-500"
                 />
               </div>
 
@@ -281,7 +289,7 @@ export default function MatchDetails({
                       (participant.neutralMinionsKilled || 0)) /
                     (match.info.gameDuration / 60)
                   ).toFixed(1)} per min`}
-                  color="bg-yellow-500"
+                  color="bg-amber-500"
                 />
 
                 <StatsBar

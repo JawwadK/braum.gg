@@ -23,7 +23,7 @@ export default function MatchTimeline({
 }: TimelineProps) {
   const [selectedMinute, setSelectedMinute] = useState(0);
 
-  // Process timeline data without opponent comparison for now
+  // Process timeline data
   const timelineData = timeline.info.frames.map((frame: any, index: number) => {
     const participant = frame.participantFrames[participantId];
     return {
@@ -46,11 +46,12 @@ export default function MatchTimeline({
     if (active && payload && payload.length) {
       setSelectedMinute(label);
       return (
-        <div className="bg-gray-900 p-3 rounded border border-gray-700">
-          <p className="text-white font-bold mb-2">Minute {label}</p>
+        <div className="bg-card p-3 rounded border border-border">
+          <p className="text-foreground font-bold mb-2">Minute {label}</p>
           {payload.map((entry: any) => (
-            <p key={entry.dataKey} style={{ color: entry.color }}>
-              {entry.name}: {entry.value.toLocaleString()}
+            <p key={entry.dataKey} className="text-foreground">
+              <span style={{ color: entry.color }}>{entry.name}</span>:{" "}
+              {entry.value.toLocaleString()}
             </p>
           ))}
         </div>
@@ -62,26 +63,38 @@ export default function MatchTimeline({
   return (
     <div className="space-y-6">
       {/* Gold Chart */}
-      <div className="bg-gray-800 p-4 rounded-lg">
-        <h3 className="text-xl font-bold mb-4">Gold Income</h3>
+      <div className="bg-card p-4 rounded-lg">
+        <h3 className="text-xl font-bold mb-4 text-foreground">Gold Income</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={timelineData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
+              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
               <XAxis
                 dataKey="minute"
                 label={{
                   value: "Minutes",
                   position: "insideBottom",
                   offset: -5,
+                  className: "text-foreground",
                 }}
+                tick={{ fill: "currentColor" }}
+                stroke="currentColor"
+                className="text-muted-foreground"
               />
               <YAxis
-                label={{ value: "Gold", angle: -90, position: "insideLeft" }}
+                label={{
+                  value: "Gold",
+                  angle: -90,
+                  position: "insideLeft",
+                  className: "text-foreground",
+                }}
                 tickFormatter={(value) => `${(value / 1000).toFixed(1)}k`}
+                tick={{ fill: "currentColor" }}
+                stroke="currentColor"
+                className="text-muted-foreground"
               />
               <Tooltip content={CustomTooltip} />
-              <Legend />
+              <Legend className="text-muted-foreground" />
               <Line
                 type="monotone"
                 dataKey="gold"
@@ -96,26 +109,40 @@ export default function MatchTimeline({
       </div>
 
       {/* XP Chart */}
-      <div className="bg-gray-800 p-4 rounded-lg">
-        <h3 className="text-xl font-bold mb-4">Experience Gained</h3>
+      <div className="bg-card p-4 rounded-lg">
+        <h3 className="text-xl font-bold mb-4 text-foreground">
+          Experience Gained
+        </h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={timelineData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
+              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
               <XAxis
                 dataKey="minute"
                 label={{
                   value: "Minutes",
                   position: "insideBottom",
                   offset: -5,
+                  className: "text-foreground",
                 }}
+                tick={{ fill: "currentColor" }}
+                stroke="currentColor"
+                className="text-muted-foreground"
               />
               <YAxis
-                label={{ value: "XP", angle: -90, position: "insideLeft" }}
+                label={{
+                  value: "XP",
+                  angle: -90,
+                  position: "insideLeft",
+                  className: "text-foreground",
+                }}
                 tickFormatter={(value) => `${(value / 1000).toFixed(1)}k`}
+                tick={{ fill: "currentColor" }}
+                stroke="currentColor"
+                className="text-muted-foreground"
               />
               <Tooltip content={CustomTooltip} />
-              <Legend />
+              <Legend className="text-muted-foreground" />
               <Line
                 type="monotone"
                 dataKey="xp"
@@ -130,25 +157,37 @@ export default function MatchTimeline({
       </div>
 
       {/* CS Chart */}
-      <div className="bg-gray-800 p-4 rounded-lg">
-        <h3 className="text-xl font-bold mb-4">Creep Score</h3>
+      <div className="bg-card p-4 rounded-lg">
+        <h3 className="text-xl font-bold mb-4 text-foreground">Creep Score</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height={240}>
             <LineChart data={timelineData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#404040" />
+              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
               <XAxis
                 dataKey="minute"
                 label={{
                   value: "Minutes",
                   position: "insideBottom",
                   offset: -5,
+                  className: "text-foreground",
                 }}
+                tick={{ fill: "currentColor" }}
+                stroke="currentColor"
+                className="text-muted-foreground"
               />
               <YAxis
-                label={{ value: "CS", angle: -90, position: "insideLeft" }}
+                label={{
+                  value: "CS",
+                  angle: -90,
+                  position: "insideLeft",
+                  className: "text-foreground",
+                }}
+                tick={{ fill: "currentColor" }}
+                stroke="currentColor"
+                className="text-muted-foreground"
               />
               <Tooltip content={CustomTooltip} />
-              <Legend />
+              <Legend className="text-muted-foreground" />
               <Line
                 type="monotone"
                 dataKey="cs"

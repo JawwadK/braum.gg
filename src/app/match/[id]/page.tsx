@@ -1,4 +1,3 @@
-// src/app/match/[id]/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -45,17 +44,17 @@ export default function MatchPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white p-8 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+      <div className="min-h-screen bg-background text-foreground p-8 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     );
   }
 
   if (error || !matchData || !summonerPuuid) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white p-8">
+      <div className="min-h-screen bg-background text-foreground p-8">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-red-500/20 border border-red-500 rounded p-4 text-center">
+          <div className="bg-destructive/20 border border-destructive rounded p-4 text-center">
             {error || "Match data or summoner PUUID not found"}
           </div>
         </div>
@@ -64,7 +63,7 @@ export default function MatchPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-background text-foreground p-8">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-bold mb-6">Match Details</h2>
         <MatchDetails

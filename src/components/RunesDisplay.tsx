@@ -144,7 +144,7 @@ export default function RunesDisplay({
   };
 
   return (
-    <div className="bg-gray-800/50 rounded-lg p-4">
+    <div className="bg-card/50 backdrop-blur-sm rounded-lg p-4">
       <div className="flex gap-6">
         {/* Primary Runes Column */}
         <div className="space-y-4">
@@ -160,7 +160,7 @@ export default function RunesDisplay({
                 unoptimized
               />
             )}
-            <span className="text-sm font-medium text-yellow-400">
+            <span className="text-sm font-medium text-amber-500 dark:text-yellow-400">
               {RUNE_STYLES[primaryStyle]?.name}
             </span>
           </div>
@@ -169,27 +169,30 @@ export default function RunesDisplay({
           <div className="space-y-3">
             {/* Keystone (larger) */}
             <div className="flex justify-center">
-              <Image
-                src={getRuneImagePath(selectedPerks[0])}
-                alt={`Keystone ${selectedPerks[0]}`}
-                width={52}
-                height={52}
-                className="rounded-full"
-                unoptimized
-              />
+              <div className="p-1 bg-card/80 rounded-full">
+                <Image
+                  src={getRuneImagePath(selectedPerks[0])}
+                  alt={`Keystone ${selectedPerks[0]}`}
+                  width={52}
+                  height={52}
+                  className="rounded-full"
+                  unoptimized
+                />
+              </div>
             </div>
             {/* Other primary runes */}
             <div className="flex flex-col items-center gap-2">
               {selectedPerks.slice(1, 4).map((perkId, index) => (
-                <Image
-                  key={index}
-                  src={getRuneImagePath(perkId)}
-                  alt={`Rune ${perkId}`}
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                  unoptimized
-                />
+                <div key={index} className="p-0.5 bg-card/80 rounded-full">
+                  <Image
+                    src={getRuneImagePath(perkId)}
+                    alt={`Rune ${perkId}`}
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                    unoptimized
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -209,7 +212,7 @@ export default function RunesDisplay({
                 unoptimized
               />
             )}
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-muted-foreground">
               {RUNE_STYLES[subStyle]?.name}
             </span>
           </div>
@@ -217,38 +220,43 @@ export default function RunesDisplay({
           {/* Secondary Runes */}
           <div className="flex flex-col items-center gap-3 mt-[68px]">
             {selectedPerks.slice(4).map((perkId, index) => (
-              <Image
-                key={index}
-                src={getRuneImagePath(perkId)}
-                alt={`Rune ${perkId}`}
-                width={32}
-                height={32}
-                className="rounded-full"
-                unoptimized
-              />
+              <div key={index} className="p-0.5 bg-card/80 rounded-full">
+                <Image
+                  src={getRuneImagePath(perkId)}
+                  alt={`Rune ${perkId}`}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                  unoptimized
+                />
+              </div>
             ))}
           </div>
         </div>
       </div>
 
       {/* Stat Shards */}
-      <div className="mt-4 pt-3 border-t border-gray-700">
+      <div className="mt-4 pt-3 border-t border-border">
         <div className="flex justify-center gap-4">
           {[statPerks.offense, statPerks.flex, statPerks.defense].map(
             (statId, index) => {
               const statImagePath = getStatPerkImagePath(statId);
               return statImagePath ? (
-                <Image
-                  key={index}
-                  src={statImagePath}
-                  alt={`Stat ${statId}`}
-                  width={20}
-                  height={20}
-                  className="rounded-full"
-                  unoptimized
-                />
+                <div key={index} className="p-0.5 bg-card/80 rounded-full">
+                  <Image
+                    src={statImagePath}
+                    alt={`Stat ${statId}`}
+                    width={20}
+                    height={20}
+                    className="rounded-full"
+                    unoptimized
+                  />
+                </div>
               ) : (
-                <div key={index} className="w-5 h-5 rounded-full bg-gray-700" />
+                <div
+                  key={index}
+                  className="w-5 h-5 rounded-full bg-secondary"
+                />
               );
             }
           )}

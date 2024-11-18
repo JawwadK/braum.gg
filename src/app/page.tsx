@@ -100,7 +100,7 @@ export default function HomePage() {
             summoner={summonerData.summoner}
             ranked={summonerData.ranked}
           />
-          <div className="bg-gray-800/50 rounded-lg p-6">
+          <div className="bg-card p-6 rounded-lg">
             <h3 className="text-xl font-bold mb-6">Match History</h3>
             <MatchHistory
               matches={summonerData.matches}

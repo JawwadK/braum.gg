@@ -3,6 +3,7 @@ import { Progress } from "@/components/ui/progress";
 import { StatsBar, DamageDistribution, CircularStat } from "./StatsDisplays";
 import MatchTimeline from "./MatchTimeline";
 import Scoreboard from "./Scoreboard";
+import RunesDisplay from "./RunesDisplay";
 import Image from "next/image";
 import { DDRAGON_BASE_URL } from "@/constants";
 
@@ -128,26 +129,48 @@ export default function MatchDetails({
               </div>
             </div>
 
-            {/* Items */}
+            {/* Build and Runes Section */}
             <div className="bg-gray-800 p-6 rounded-lg">
-              <h3 className="text-xl font-bold mb-4">Build</h3>
-              <div className="grid grid-cols-3 gap-2">
-                {[...Array(6)].map((_, i) => {
-                  const itemId = participant[`item${i}`];
-                  return itemId ? (
-                    <Image
-                      key={i}
-                      src={`${DDRAGON_BASE_URL}/img/item/${itemId}.png`}
-                      alt={`Item ${i}`}
-                      width={40}
-                      height={40}
-                      className="rounded"
-                      unoptimized
-                    />
-                  ) : (
-                    <div key={i} className="w-10 h-10 bg-gray-700 rounded" />
-                  );
-                })}
+              <h3 className="text-xl font-bold mb-4">Build & Runes</h3>
+              <div className="space-y-4">
+                {/* Items */}
+                <div className="grid grid-cols-3 gap-2">
+                  {[...Array(6)].map((_, i) => {
+                    const itemId = participant[`item${i}`];
+                    return itemId ? (
+                      <Image
+                        key={i}
+                        src={`${DDRAGON_BASE_URL}/img/item/${itemId}.png`}
+                        alt={`Item ${i}`}
+                        width={40}
+                        height={40}
+                        className="rounded"
+                        unoptimized
+                      />
+                    ) : (
+                      <div key={i} className="w-10 h-10 bg-gray-700 rounded" />
+                    );
+                  })}
+                </div>
+
+                {/* Runes */}
+                <RunesDisplay
+                  primaryStyle={participant.perks.styles[0].style}
+                  subStyle={participant.perks.styles[1].style}
+                  selectedPerks={[
+                    ...participant.perks.styles[0].selections.map(
+                      (s: any) => s.perk
+                    ),
+                    ...participant.perks.styles[1].selections.map(
+                      (s: any) => s.perk
+                    ),
+                  ]}
+                  statPerks={{
+                    defense: participant.perks.statPerks.defense,
+                    flex: participant.perks.statPerks.flex,
+                    offense: participant.perks.statPerks.offense,
+                  }}
+                />
               </div>
             </div>
           </div>

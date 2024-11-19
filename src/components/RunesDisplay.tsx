@@ -107,7 +107,7 @@ const STAT_PERKS = {
   5005: "StatMods/StatModsAttackSpeedIcon",
   5007: "StatMods/StatModsCDRScalingIcon",
   5008: "StatMods/StatModsAdaptiveForceIcon",
-  5011: "StatMods/StatModsHealthIcon",
+  5011: "StatMods/StatModsHealthScalingIcon",
 };
 
 export default function RunesDisplay({

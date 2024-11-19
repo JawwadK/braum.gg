@@ -105,16 +105,23 @@ export default function MatchDetails({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Performance Stats */}
             <div className="bg-card p-6 rounded-lg">
-              <h3 className="text-xl font-bold mb-4 text-foreground">
+              <h3 className="text-xl font-bold mb-6 text-foreground">
                 Performance
               </h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-muted-foreground">KDA</p>
-                  <p className="text-xl text-foreground">
-                    {participant.kills}/{participant.deaths}/
-                    {participant.assists}
-                  </p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                {/* Each stat card with truncated labels and fixed heights for each section */}
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    {" "}
+                    {/* Fixed height for title + main value */}
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      KDA
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {participant.kills}/{participant.deaths}/
+                      {participant.assists}
+                    </p>
+                  </div>
                   <p className="text-sm text-muted-foreground">
                     {(
                       (participant.kills + participant.assists) /
@@ -123,16 +130,168 @@ export default function MatchDetails({
                     KDA
                   </p>
                 </div>
-                <div>
-                  <p className="text-muted-foreground">Kill Participation</p>
-                  <p className="text-xl text-foreground">
-                    {formatPercent(killParticipation)}
+
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      Participation
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {formatPercent(killParticipation)}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground whitespace-nowrap">
+                    {totalTeamKills} team kills
                   </p>
+                </div>
+
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      Vision Score
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {participant.visionScore}
+                    </p>
+                  </div>
                   <p className="text-sm text-muted-foreground">
-                    Team Kills: {totalTeamKills}
+                    {(
+                      participant.visionScore /
+                      (match.info.gameDuration / 60)
+                    ).toFixed(1)}{" "}
+                    per min
+                  </p>
+                </div>
+
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      CS
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {participant.totalMinionsKilled +
+                        participant.neutralMinionsKilled}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {(
+                      (participant.totalMinionsKilled +
+                        participant.neutralMinionsKilled) /
+                      (match.info.gameDuration / 60)
+                    ).toFixed(1)}{" "}
+                    per min
+                  </p>
+                </div>
+
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      Damage Share
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {formatPercent(damageShare)}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {formatNumber(participant.totalDamageDealtToChampions)}{" "}
+                    total
+                  </p>
+                </div>
+
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      Objectives
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {formatNumber(participant.damageDealtToObjectives)}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {formatNumber(participant.damageDealtToTurrets)} to turrets
+                  </p>
+                </div>
+
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      Survival
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {formatPercent(
+                        (participant.damageSelfMitigated /
+                          (participant.damageSelfMitigated +
+                            participant.totalDamageTaken)) *
+                          100
+                      )}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    damage mitigated
+                  </p>
+                </div>
+
+                <div className="flex flex-col h-[88px]">
+                  <div className="h-14">
+                    <p className="text-sm text-muted-foreground truncate mb-1.5">
+                      Gold Share
+                    </p>
+                    <p className="text-xl text-foreground font-medium">
+                      {formatPercent(
+                        (participant.goldEarned /
+                          match.info.participants
+                            .filter((p: any) => p.teamId === participant.teamId)
+                            .reduce(
+                              (sum: number, p: any) => sum + p.goldEarned,
+                              0
+                            )) *
+                          100
+                      )}
+                    </p>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {formatNumber(participant.goldEarned)} total
                   </p>
                 </div>
               </div>
+
+              {/* Combat Achievements - no changes needed here */}
+              {(participant.pentaKills > 0 ||
+                participant.quadraKills > 0 ||
+                participant.tripleKills > 0 ||
+                participant.doubleKills > 0) && (
+                <div className="mt-8 pt-6 border-t border-border">
+                  <h4 className="text-sm font-medium text-muted-foreground mb-3">
+                    Achievements
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {participant.pentaKills > 0 && (
+                      <div className="px-3 py-1.5 bg-primary/10 rounded-full text-primary text-sm font-medium">
+                        {participant.pentaKills} Penta Kill
+                        {participant.pentaKills > 1 ? "s" : ""}
+                      </div>
+                    )}
+                    {participant.quadraKills > 0 && (
+                      <div className="px-3 py-1.5 bg-primary/10 rounded-full text-primary text-sm font-medium">
+                        {participant.quadraKills} Quadra Kill
+                        {participant.quadraKills > 1 ? "s" : ""}
+                      </div>
+                    )}
+                    {participant.tripleKills > 0 && (
+                      <div className="px-3 py-1.5 bg-primary/10 rounded-full text-primary text-sm font-medium">
+                        {participant.tripleKills} Triple Kill
+                        {participant.tripleKills > 1 ? "s" : ""}
+                      </div>
+                    )}
+                    {participant.doubleKills > 0 && (
+                      <div className="px-3 py-1.5 bg-primary/10 rounded-full text-primary text-sm font-medium">
+                        {participant.doubleKills} Double Kill
+                        {participant.doubleKills > 1 ? "s" : ""}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Build and Runes Section */}

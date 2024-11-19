@@ -39,7 +39,7 @@
 - Dynamic particle effects
 - Dark/Light theme support
 
-![Match Analysis](/public/screenshots/MatchAnalysis.png)
+![Match Analysis](/public/screenshots/MatchAnalysispage.png)
 
 ## ⚙️ Core Components
 

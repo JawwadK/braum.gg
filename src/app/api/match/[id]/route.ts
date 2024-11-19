@@ -1,4 +1,4 @@
-// app/api/match/[id]/route.ts
+// src/app/api/match/[id]/route.ts
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
@@ -20,7 +20,7 @@ export async function GET(
       match: matchResponse.data,
       timeline: timelineResponse.data
     });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Unable to fetch match data' }, { status: 500 });
   }
 }

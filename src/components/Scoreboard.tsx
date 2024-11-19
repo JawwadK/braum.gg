@@ -1,34 +1,39 @@
 import React from "react";
 import Image from "next/image";
 import { DDRAGON_BASE_URL } from "@/constants";
+import type { MatchData, MatchParticipant } from "@/types/match";
 
-const Scoreboard = ({
-  match,
-  summonerPuuid,
-}: {
-  match: any;
+interface ScoreboardProps {
+  match: MatchData;
   summonerPuuid: string;
-}) => {
+}
+
+
+const Scoreboard = ({ match, summonerPuuid }: ScoreboardProps) => {
   // Separate participants into teams
   const teams = {
-    blue: match.info.participants.filter((p: any) => p.teamId === 100),
-    red: match.info.participants.filter((p: any) => p.teamId === 200),
+    blue: match.info.participants.filter(
+      (p: MatchParticipant) => p.teamId === 100
+    ),
+    red: match.info.participants.filter(
+      (p: MatchParticipant) => p.teamId === 200
+    ),
   };
 
-  const StatCell = ({ value, label }: { value: number; label?: string }) => (
+  const StatCell = ({
+    value,
+    label,
+  }: {
+    value: number | string;
+    label?: string;
+  }) => (
     <div className="text-center">
       <div className="font-medium text-foreground">{value}</div>
       {label && <div className="text-xs text-muted-foreground">{label}</div>}
     </div>
   );
 
-  const TeamSection = ({
-    team,
-    teamName,
-  }: {
-    team: any[];
-    teamName: string;
-  }) => (
+  const TeamSection = ({ team }: { team: MatchParticipant[] }) => (
     <div className="space-y-1">
       <div className="grid grid-cols-12 gap-2 text-sm text-muted-foreground px-2">
         <div className="col-span-4">Champion</div>
@@ -37,7 +42,7 @@ const Scoreboard = ({
         <div className="col-span-2 text-center">Gold</div>
         <div className="col-span-2 text-center">CS</div>
       </div>
-      {team.map((player: any) => (
+      {team.map((player: MatchParticipant) => (
         <div
           key={player.puuid}
           className={`grid grid-cols-12 gap-2 items-center p-2 rounded ${
@@ -107,26 +112,22 @@ const Scoreboard = ({
     <div className="bg-card p-4 rounded-lg space-y-4">
       <div className="space-y-4">
         <div>
-          <h3
-            className={`text-sky-400 font-medium mb-2 flex items-center justify-between`}
-          >
+          <h3 className="text-sky-400 font-medium mb-2 flex items-center justify-between">
             <span>BLUE TEAM</span>
             {teams.blue[0].win && (
               <span className="text-primary text-sm font-normal">VICTORY</span>
             )}
           </h3>
-          <TeamSection team={teams.blue} teamName="blue" />
+          <TeamSection team={teams.blue} />
         </div>
         <div className="border-t border-border pt-4">
-          <h3
-            className={`text-rose-400 font-medium mb-2 flex items-center justify-between`}
-          >
+          <h3 className="text-rose-400 font-medium mb-2 flex items-center justify-between">
             <span>RED TEAM</span>
             {teams.red[0].win && (
               <span className="text-primary text-sm font-normal">VICTORY</span>
             )}
           </h3>
-          <TeamSection team={teams.red} teamName="red" />
+          <TeamSection team={teams.red} />
         </div>
       </div>
     </div>

@@ -1,13 +1,13 @@
-"use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { DDRAGON_BASE_URL } from "@/constants";
 import { Sword, Wand, ArrowRight, Heart, Trees } from "lucide-react";
+import { MatchData, MatchParticipant } from "@/types/match";
 
 interface MatchHistoryProps {
-  matches: any[];
+  matches: MatchData[];
   summonerPuuid: string;
   summonerName?: string;
 }
@@ -28,7 +28,7 @@ export default function MatchHistory({
     return `${minutes}m ${remainingSeconds}s`;
   };
 
-  const getGameOutcome = (participant: any) => {
+  const getGameOutcome = (participant: MatchParticipant) => {
     if (participant.gameEndedInEarlySurrender) return "Remake";
     return participant.win ? "Victory" : "Defeat";
   };
@@ -68,8 +68,10 @@ export default function MatchHistory({
 
       {matches.map((match) => {
         const participant = match.info.participants.find(
-          (p: any) => p.puuid === summonerPuuid
+          (p: MatchParticipant) => p.puuid === summonerPuuid
         );
+
+        if (!participant) return null;
 
         const outcomeStyle = participant.win
           ? "bg-primary/10 border-primary/50 hover:bg-primary/20"
@@ -82,7 +84,8 @@ export default function MatchHistory({
         );
 
         const csPerMin = (
-          (participant.totalMinionsKilled + participant.neutralMinionsKilled) /
+          (participant.totalMinionsKilled +
+            (participant.neutralMinionsKilled || 0)) /
           (match.info.gameDuration / 60)
         ).toFixed(1);
 
@@ -94,6 +97,7 @@ export default function MatchHistory({
             <div
               className={`border rounded-lg transition-colors ${outcomeStyle} p-4`}
             >
+              {/* Match details content */}
               <div className="flex items-center gap-6">
                 {/* Game info */}
                 <div className="w-28">
@@ -146,7 +150,7 @@ export default function MatchHistory({
                   </div>
                 </div>
 
-                {/* KDA */}
+                {/* Stats */}
                 <div className="w-32 text-center">
                   <div className="text-sm font-medium">
                     {participant.kills}/{participant.deaths}/
@@ -163,11 +167,10 @@ export default function MatchHistory({
                   </div>
                 </div>
 
-                {/* CS */}
                 <div className="w-24 text-center">
                   <div className="text-sm font-medium">
                     {participant.totalMinionsKilled +
-                      participant.neutralMinionsKilled}{" "}
+                      (participant.neutralMinionsKilled || 0)}{" "}
                     CS
                   </div>
                   <div className="text-xs text-muted-foreground">
@@ -175,7 +178,6 @@ export default function MatchHistory({
                   </div>
                 </div>
 
-                {/* Game outcome */}
                 <div className="w-24 text-right">
                   <div
                     className={`text-sm font-medium ${

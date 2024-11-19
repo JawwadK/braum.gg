@@ -1,9 +1,9 @@
 "use client";
 
+import type { MatchData } from "@/types/match";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import MatchDetails from "@/components/MatchDetails";
-import type { MatchData } from "../../../types/summoner";
 
 interface MatchPageData {
   match: MatchData;

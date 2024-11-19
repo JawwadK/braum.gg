@@ -1,5 +1,6 @@
+
+import type { MatchDetailsProps, MatchParticipant } from "@/types/match";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Progress } from "@/components/ui/progress";
 import { StatsBar, DamageDistribution, CircularStat } from "./StatsDisplays";
 import MatchTimeline from "./MatchTimeline";
 import Scoreboard from "./Scoreboard";
@@ -7,19 +8,13 @@ import RunesDisplay from "./RunesDisplay";
 import Image from "next/image";
 import { DDRAGON_BASE_URL } from "@/constants";
 
-interface MatchDetailsProps {
-  match: any;
-  timeline: any;
-  summonerPuuid: string;
-}
-
 export default function MatchDetails({
   match,
   timeline,
   summonerPuuid,
 }: MatchDetailsProps) {
   const participant = match?.info?.participants?.find(
-    (p: any) => p.puuid === summonerPuuid
+    (p: MatchParticipant) => p.puuid === summonerPuuid
   );
 
   if (!participant) {
@@ -31,7 +26,7 @@ export default function MatchDetails({
   }
 
   const team = match?.info?.teams?.find(
-    (t: any) => t.teamId === participant.teamId
+    (t: { teamId: number }) => t.teamId === participant.teamId
   );
 
   if (!team) {
@@ -47,8 +42,12 @@ export default function MatchDetails({
 
   // Calculate damage percentages
   const totalTeamDamage = match.info.participants
-    .filter((p: any) => p.teamId === participant.teamId)
-    .reduce((sum: number, p: any) => sum + p.totalDamageDealtToChampions, 0);
+    .filter((p: MatchParticipant) => p.teamId === participant.teamId)
+    .reduce(
+      (sum: number, p: MatchParticipant) => sum + p.totalDamageDealtToChampions,
+      0
+    );
+
   const damageShare =
     (participant.totalDamageDealtToChampions / totalTeamDamage) * 100;
 
@@ -60,7 +59,7 @@ export default function MatchDetails({
 
   return (
     <div className="space-y-6">
-      {/* Overview Panel - Always visible */}
+      {/* Overview Panel */}
       <div className="bg-card p-6 rounded-lg">
         <div className="flex items-center gap-4">
           <Image
@@ -100,7 +99,6 @@ export default function MatchDetails({
           <TabsTrigger value="timeline">Timeline</TabsTrigger>
         </TabsList>
 
-        {/* Overview Tab */}
         <TabsContent value="overview">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Performance Stats */}

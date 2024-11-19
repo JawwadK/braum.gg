@@ -1,11 +1,10 @@
-// src/types/summoner.ts
+import type { MatchData as MatchDataType } from './match';
 
 export interface SummonerResponse {
   summoner: Summoner;
   ranked: RankedInfo[];
-  matches: MatchData[];
+  matches: MatchDataType[];
 }
-
 export interface Summoner {
   accountId: string;
   profileIconId: number;

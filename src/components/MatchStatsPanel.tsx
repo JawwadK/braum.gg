@@ -3,13 +3,13 @@
 interface StatsPanelProps {
   playerStats: any;
   opponentStats: any;
-  minute: number;
+  _minute: number;
 }
 
 export default function StatsPanel({
   playerStats,
   opponentStats,
-  minute,
+  _minute, // Prefixed with underscore since it's not used
 }: StatsPanelProps) {
   const calculateDiff = (player: number, opponent: number) => {
     const diff = player - opponent;

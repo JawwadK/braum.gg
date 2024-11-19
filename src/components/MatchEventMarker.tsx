@@ -1,12 +1,11 @@
-"use client";
-
-import { Skull, Sword, Tower, Dragon, Crown } from "lucide-react";
+import { Skull, Sword, Castle, Shield, Crown } from "lucide-react";
+import type { TimelineEvent } from "@/types/match";
 
 interface EventMarkerProps {
   type: string;
   cx: number;
   cy: number;
-  payload: any;
+  payload: TimelineEvent;
 }
 
 export default function EventMarker({
@@ -21,12 +20,12 @@ export default function EventMarker({
         return <Skull className="w-4 h-4 text-red-500" />;
       case "ELITE_MONSTER_KILL":
         return payload.monsterType === "DRAGON" ? (
-          <Dragon className="w-4 h-4 text-purple-500" />
+          <Shield className="w-4 h-4 text-purple-500" />
         ) : (
           <Crown className="w-4 h-4 text-yellow-500" />
         );
       case "BUILDING_KILL":
-        return <Tower className="w-4 h-4 text-orange-500" />;
+        return <Castle className="w-4 h-4 text-orange-500" />;
       default:
         return <Sword className="w-4 h-4 text-white" />;
     }

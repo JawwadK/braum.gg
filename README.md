@@ -11,7 +11,7 @@
 
 </div>
 
-![Home Page](/screenshots/Homepage.png)
+![Home Page](/public/screenshots/Homepage.png)
 
 ## 📋 Features
 
@@ -39,7 +39,7 @@
 - Dynamic particle effects
 - Dark/Light theme support
 
-![Match Analysis](/screenshots/MatchAnalysis.png)
+![Match Analysis](/public/screenshots/MatchAnalysis.png)
 
 ## ⚙️ Core Components
 
@@ -75,7 +75,7 @@ ErrorDisplays    - Error handling components
 
 </details>
 
-![Profile Page](/screenshots/Profilepage.png)
+![Profile Page](/public/screenshots/Profilepage.png)
 
 ## 🚀 Getting Started
 

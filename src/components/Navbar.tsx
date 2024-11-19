@@ -63,7 +63,7 @@ export default function Navbar() {
             </div>
             <div className="ml-3 flex flex-col">
               <span className="text-foreground font-bold text-lg">
-                Braum.gg
+                Braum.GG
               </span>
               <span className="text-xs text-primary/80 font-medium">
                 Heart of the Freljord
